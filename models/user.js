@@ -9,11 +9,15 @@ const UserSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        unique : true,
+        required: true,
+        dropDups: true
     },
     username: {
         type: String,
-        required: true
+        unique : true,
+        required: true,
+        dropDups: true
     },
     password: {
         type: String,
@@ -44,5 +48,14 @@ module.exports.addUser = function(newUser, callback) {
                 newUser.save(callback);
             }
         });
+    });
+}
+
+module.exports.comparePassword = function(candidatePassword, hash, callback) {
+    bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
+        if(err) {
+            console.log(err);
+        }
+        callback(null, isMatch);
     });
 }

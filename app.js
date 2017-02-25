@@ -35,8 +35,10 @@ app.get('/', (req, res) => {
     res.send('Invalid inpoint');
 });
 
-
-
+//Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/passport')(passport);
 
 //Starts server
 app.listen(port, () => {
