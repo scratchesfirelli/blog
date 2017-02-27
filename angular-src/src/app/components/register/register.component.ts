@@ -49,7 +49,7 @@ export class RegisterComponent implements OnInit {
 
     //Verify password
     if(!this.validateService.confirmPassword(user.password, user.passwordConfirm)){
-      this.flashMessagesService.show('Please use validate email', {cssClass: 'alert-danger', timeout: 3000});
+      this.flashMessagesService.show('Passwords don\'t match', {cssClass: 'alert-danger', timeout: 3000});
       return false
     }
 
