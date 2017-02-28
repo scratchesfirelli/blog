@@ -18,6 +18,7 @@ import {AuthService} from './services/auth.service';
 import {AuthGuard} from './guards/auth.guard';
 import { PostComponent } from './components/post/post.component';
 import { AddPostComponent } from './components/post/add-post.component';
+import { PostDetailComponent } from './components/post/post-detail.component';
 import {PostService} from './services/post.service'
 
 const appRoutes: Routes = [
@@ -29,7 +30,8 @@ const appRoutes: Routes = [
     {path: '', redirectTo: 'list', pathMatch: 'full'},
     {path: 'list', component: PostComponent},
     {path: 'add', component: AddPostComponent, canActivate: [AuthGuard]}
-  ]}
+  ]},
+  {path: 'post/:postId', component: PostDetailComponent},
 ]
 
 @NgModule({
@@ -41,7 +43,8 @@ const appRoutes: Routes = [
     HomeComponent,
     ProfileComponent,
     PostComponent,
-    AddPostComponent
+    AddPostComponent,
+    PostDetailComponent
   ],
   imports: [
     BrowserModule,

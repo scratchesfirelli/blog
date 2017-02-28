@@ -22,11 +22,12 @@ const PostSchema = mongoose.Schema({
     },
     comments: [
         {
-            user: {},
-            comment: String,
-            commentDate: {
+            username: String,
+            text: String,
+            date: {
                 type: Date,
-                defaul: Date.now
+                default: Date.now,
+                required: true
             }
         }
     ],
@@ -45,40 +46,26 @@ module.exports.addPost = function(post, callback) {
     post.save(callback);
 }
 
+module.exports.addComment = function(comment, callback) {
+    const conditions = { _id: comment.postId };
+    const update = { 
+        $push: { 
+            comments: {
+                username: comment.username,
+                text: comment.text
+            },
+            $sort: 'desc'
+        }};
+    const  options = { multi: false };
+    //console.log(conditions, update, options);
+    Post.update(conditions, update, options, callback);
+}
+
 module.exports.getPosts = function(page, callback) {
     const query = Post.find().limit(pageSize).skip((page-1)*pageSize).sort({createDate: 'desc'});
     query.exec(callback);
 }
 
-
-//module.exports lets use function from outside
-/*module.exports.getUserById = function(id, callback) {
-    User.findById(id, callback);
+module.exports.getPostById = function(id, callback) {    
+    Post.findById(id, callback).sort({comments: 'asc'});
 }
-
-module.exports.getUserByUsername = function(username, callback) {
-    const query = {username: username};
-    User.findOne(query, callback);
-}
-
-module.exports.addUser = function(newUser, callback) {
-    bcrypt.genSalt(11, (err,salt) => {
-        bcrypt.hash(newUser.password, salt, (err,hash) => {
-            if(err) {
-                console.log(err);
-            } else {
-                newUser.password = hash;
-                newUser.save(callback);
-            }
-        });
-    });
-}
-
-module.exports.comparePassword = function(candidatePassword, hash, callback) {
-    bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
-        if(err) {
-            console.log(err);
-        }
-        callback(null, isMatch);
-    });
-}*/

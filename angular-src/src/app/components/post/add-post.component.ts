@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {FlashMessagesService} from 'angular2-flash-messages';
 
 @Component({
-  selector: 'app-post',
+  selector: 'app-add-post',
   templateUrl: './add-post.component.html'
 })
 export class AddPostComponent implements OnInit {
@@ -48,13 +48,13 @@ export class AddPostComponent implements OnInit {
     }
     console.log(post);
 
-    this.postService.addPost(post).subscribe(data => {
+    this.postService.addPost(post, this.authService.authToken).subscribe(data => {
       if(data.success) {
         this.flashMessagesService.show('You added a new post', {cssClass: 'alert-success', timeout: 3000});  
-        this.router.navigate(['/list']);
+        this.router.navigate(['/post/list']);
       } else {
         this.flashMessagesService.show('Something went wrong', {cssClass: 'alert-success', timeout: 3000});  
-        this.router.navigate(['/post']);
+        this.router.navigate(['/post/add']);
       }
     });
   }
