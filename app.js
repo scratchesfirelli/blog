@@ -5,6 +5,7 @@ const cors = require('cors');//enables sites use the api
 const passport = require('passport');
 const mongoose = require('mongoose');
 const user = require('./routes/users');
+const post = require('./routes/posts');
 const config = require('./config/database');
 
 //Connect to database
@@ -29,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //we wanna use user for all of our user routes
 app.use('/users', user);
+app.use('/posts', post);
 
 //index route
 app.get('/', (req, res) => {

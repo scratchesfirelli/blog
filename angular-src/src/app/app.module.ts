@@ -10,20 +10,26 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
 import {ValidateService} from './services/validate.service';
 import {FlashMessagesModule} from 'angular2-flash-messages';
 import {AuthService} from './services/auth.service';
 import {AuthGuard} from './guards/auth.guard';
+import { PostComponent } from './components/post/post.component';
+import { AddPostComponent } from './components/post/add-post.component';
+import {PostService} from './services/post.service'
 
 const appRoutes: Routes = [
   {path:'', component: HomeComponent},
   {path:'register', component: RegisterComponent},
   {path:'login', component: LoginComponent},
-  {path:'dashboard', component: DashboardComponent},
   {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]},
+  {path:'post', children: [
+    {path: '', redirectTo: 'list', pathMatch: 'full'},
+    {path: 'list', component: PostComponent},
+    {path: 'add', component: AddPostComponent, canActivate: [AuthGuard]}
+  ]}
 ]
 
 @NgModule({
@@ -33,8 +39,9 @@ const appRoutes: Routes = [
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    DashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    PostComponent,
+    AddPostComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +51,7 @@ const appRoutes: Routes = [
     FlashMessagesModule
     
   ],
-  providers: [ValidateService, AuthService, AuthGuard],
+  providers: [ValidateService, AuthService, AuthGuard, PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

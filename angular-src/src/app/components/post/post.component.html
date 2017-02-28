@@ -1,0 +1,21 @@
+<h1 class="text-center">Posts</h1>
+<div class="container" *ngIf = "posts">    
+    <div *ngFor = "let post of posts">
+        <div class="page-header">
+            <h1>{{post.title}} <small>{{post.tags}}</small></h1>
+            <h4>by<a href="#"> {{post.author}}</a></h4>
+        </div>
+        
+        <div class="well well-md">
+            {{post.content}}
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                {{post.createDate| date: 'medium'}}
+            </div>
+            <div class="col-md-2 text-right" >
+                {{post.rating }}
+            </div>
+        </div>
+    </div>
+</div>

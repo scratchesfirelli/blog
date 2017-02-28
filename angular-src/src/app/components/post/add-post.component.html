@@ -1,0 +1,16 @@
+<h2 class="page-header">New Post</h2>
+<form (submit)="onAddPostSubmit()">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" [(ngModel)]="title" name = "title" class="form-control" placeholder="Perfect title">
+    </div>
+    <div class="form-group">
+        <label>Tags</label>
+        <input type="text" [(ngModel)]="tags" name = "tags" class="form-control" placeholder="Some tags">
+    </div>
+    <div class="form-group">
+        <label>Content</label>
+        <textarea class="form-control" rows="5" [(ngModel)]="content" name = "content" placeholder="Content goes here"></textarea>
+    </div>
+    <input type="submit" class="btn btn-primary" value="Add Post">
+</form>
