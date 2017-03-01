@@ -14,11 +14,12 @@ export class PostService {
       .map(res => res.json());
   }
 
-  getPosts(page) {
-    page = page || 0;
+  getPosts(page : Number = 1, pageSize: Number = 10) {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/posts/list',  {headers: headers})
+    headers.append('page', page.toString());
+    headers.append('pageSize', pageSize.toString());
+    return this.http.get('http://localhost:3000/posts/getPosts', {headers: headers})
       .map(res => res.json());
   }
 
@@ -26,6 +27,11 @@ export class PostService {
     let headers = new Headers();
     headers.append('postId', postId);
     return this.http.get('http://localhost:3000/posts/getPostById', {headers: headers})
+      .map(res => res.json());
+  }
+
+  getPostsTotalCount() {
+    return this.http.get('http://localhost:3000/posts/getPostsTotalCount')
       .map(res => res.json());
   }
 

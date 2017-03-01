@@ -3,7 +3,7 @@
     <div *ngFor = "let post of posts">
         <div class="page-header">
             <h1><a [routerLink]="['/post', post._id]">{{post.title}}</a> <small>{{post.tags}}</small></h1>
-            <h4>by<a href="#"> {{post.author}}</a></h4>
+            <h4>by<a [routerLink] = "['/user', post.author]"> {{post.author}}</a></h4>
         </div>
         
         <!--<div class="well well-md">
@@ -18,4 +18,22 @@
             </div>
         </div>
     </div>
+     <!-- pager -->
+    <ul *ngIf="pager.pages && pager.pages.length && posts.length" class="pagination">
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="getPosts(1)">First</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === 1}">
+            <a (click)="getPosts(pager.currentPage - 1)">Previous</a>
+        </li>
+        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+            <a (click)="getPosts(page)">{{page}}</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="getPosts(pager.currentPage + 1)">Next</a>
+        </li>
+        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+            <a (click)="getPosts(pager.totalPages)">Last</a>
+        </li>
+    </ul>
 </div>

@@ -1,0 +1,5 @@
+<div class="container" *ngIf="users">
+  <div *ngFor = "let user of users">
+    <h5><a [routerLink] = "['/user', user.username]">{{user.username}}</a></h5>
+  </div>
+</div>

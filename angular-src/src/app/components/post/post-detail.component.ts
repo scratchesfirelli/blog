@@ -41,6 +41,7 @@ export class PostDetailComponent implements OnInit {
   ngOnInit() {
     this.authService.getProfile().subscribe(data => {
       this.user = data.user;
+      console.log(this.user);
     }, 
     err => {
       console.log(err);
@@ -48,7 +49,8 @@ export class PostDetailComponent implements OnInit {
     });
     const postId = this.activatedRoute.snapshot.params['postId'];
     this.postService.getPostsById(postId).subscribe(data => {
-      this.post = data.post;        
+      this.post = data.post;  
+      console.log(this.post);    
     },
     err => {
       console.log(err);

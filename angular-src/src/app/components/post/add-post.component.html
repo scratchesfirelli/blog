@@ -12,5 +12,6 @@
         <label>Content</label>
         <textarea class="form-control" rows="5" [(ngModel)]="content" name = "content" placeholder="Content goes here"></textarea>
     </div>
+    <a [routerLink]="['/post']" class="btn btn-default">Cancel</a>
     <input type="submit" class="btn btn-primary" value="Add Post">
 </form>

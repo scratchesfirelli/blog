@@ -41,11 +41,14 @@ router.post('/addComment', passport.authenticate('jwt', {session: false}), (req,
     });
 });
 
-router.get('/list', (req, res, next) => {
-    let page = req.page
+router.get('/getPosts', (req, res, next) => {
+    //console.log(req.get('page'));
+    let page = parseInt(req.get('page'));
+    let pageSize = parseInt(req.get('pageSize'));
 
-    Post.getPosts(page, (err, posts) => {
-        if(err) {
+    Post.getPosts(page, pageSize, (err, posts) => {
+        if(err || posts.length==0) {
+            console.log(err);
             res.json({success: false, message: 'Failed to get posts'});
         } else {
             res.json({success: true, message: 'Posts', posts: posts});
@@ -60,6 +63,16 @@ router.get('/getPostById', (req, res, next) => {
             res.json({success: false, message: 'Failed to get posts'});
         } else {
             res.json({success: true, message: 'Post', post: post});
+        }
+    });
+});
+
+router.get('/getPostsTotalCount', (req, res, next) => {
+    Post.getPostsTotalCount((err, count) => {
+        if(err) {
+           res.json({success: false, message: 'Failed to get posts count'});
+        } else {
+            res.json({success: true, message: 'We got posts count', postsTotalCount: count});
         }
     });
 });

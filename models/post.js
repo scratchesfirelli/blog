@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const config = require('../config/database');
 const User = require('./user');
 
-const pageSize = 10;
 //User schema
 const PostSchema = mongoose.Schema({
     title: {
@@ -61,10 +60,17 @@ module.exports.addComment = function(comment, callback) {
     Post.update(conditions, update, options, callback);
 }
 
-module.exports.getPosts = function(page, callback) {
+module.exports.getPosts = function(page, pageSize, callback) {
+    console.log(page);
+    console.log(pageSize);
     const query = Post.find().limit(pageSize).skip((page-1)*pageSize).sort({createDate: 'desc'});
     query.exec(callback);
 }
+
+module.exports.getPostsTotalCount = function(callback) {
+    Post.count(callback);
+}
+
 
 module.exports.getPostById = function(id, callback) {    
     Post.findById(id, callback).sort({comments: 'asc'});

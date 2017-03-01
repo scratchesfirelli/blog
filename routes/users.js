@@ -24,6 +24,8 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+
+
 //Authenticate
 router.post('/authenticate', (req, res, next) => {
     const username = req.body.username;
@@ -66,5 +68,18 @@ router.post('/authenticate', (req, res, next) => {
 router.get('/profile', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     res.json({user: req.user});
 });
+
+router.get('/list', (req, res, next) => {
+    User.getUsers((err, users) => {
+        if(err) {
+           res.json({success: false, message: 'Error occured'});
+        } else {
+            res.json({success: true, message: "Users", users: users});
+        }
+    });
+});
+
+
+
 
 module.exports = router; 

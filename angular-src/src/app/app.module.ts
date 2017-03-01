@@ -19,19 +19,32 @@ import {AuthGuard} from './guards/auth.guard';
 import { PostComponent } from './components/post/post.component';
 import { AddPostComponent } from './components/post/add-post.component';
 import { PostDetailComponent } from './components/post/post-detail.component';
-import {PostService} from './services/post.service'
+import { PostService} from './services/post.service';
+import { UserComponent } from './components/user/user.component';
+import { UserDetailComponent } from './components/user/user-detail.component';
+import { UserService } from './services/user.service';
+import { PaginationService } from './services/pagination.service';
 
 const appRoutes: Routes = [
   {path:'', component: HomeComponent},
   {path:'register', component: RegisterComponent},
   {path:'login', component: LoginComponent},
-  {path:'profile', component: ProfileComponent, canActivate: [AuthGuard]},
-  {path:'post', children: [
-    {path: '', redirectTo: 'list', pathMatch: 'full'},
-    {path: 'list', component: PostComponent},
-    {path: 'add', component: AddPostComponent, canActivate: [AuthGuard]}
+  {path:'profile', canActivate: [AuthGuard], children: [
+    {path: '', component: ProfileComponent},
+    {path: 'posts', component: ProfileComponent},
   ]},
-  {path: 'post/:postId', component: PostDetailComponent},
+  {path:'post', children: [
+    {path: '', redirectTo: 'page/1', pathMatch: 'full'},
+    {path: 'page/:pageNumber', component: PostComponent},
+    {path: 'add', component: AddPostComponent, canActivate: [AuthGuard]},
+    {path: ':postId', component: PostDetailComponent},
+  ]},
+  
+  {path: 'user', children: [
+    {path: '', redirectTo: 'list', pathMatch: 'full'},
+    {path: 'list', component: UserComponent},
+    {path: ':username', component: UserDetailComponent},
+  ]}
 ]
 
 @NgModule({
@@ -44,7 +57,9 @@ const appRoutes: Routes = [
     ProfileComponent,
     PostComponent,
     AddPostComponent,
-    PostDetailComponent
+    PostDetailComponent,
+    UserComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +69,7 @@ const appRoutes: Routes = [
     FlashMessagesModule
     
   ],
-  providers: [ValidateService, AuthService, AuthGuard, PostService],
+  providers: [ValidateService, AuthService, AuthGuard, PostService, UserService, PaginationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

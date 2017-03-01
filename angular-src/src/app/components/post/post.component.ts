@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {PostService} from '../../services/post.service';
+import {PaginationService} from '../../services/pagination.service';
 import {AuthService} from '../../services/auth.service';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {FlashMessagesService} from 'angular2-flash-messages';
 
 @Component({
@@ -16,12 +17,16 @@ export class PostComponent implements OnInit {
   author: String;
 
   posts: any;
+  pager: any = {};
+  postsTotalCount: number;
 
   constructor(
     private postService: PostService,
     private authService: AuthService,
     private flashMessagesService: FlashMessagesService,
-    private router: Router) { }
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private paginationService: PaginationService) { }
 
   ngOnInit() {
     this.authService.getProfile().subscribe(data => {
@@ -31,50 +36,28 @@ export class PostComponent implements OnInit {
       console.log(err);
       return false;
     });
-    this.postService.getPosts(1).subscribe(data => {
+
+    this.postService.getPostsTotalCount().subscribe(data => {
+      this.postsTotalCount = data.postsTotalCount;
+    }, err => {
+      console.log(err);
+      return false;
+    });
+    
+    const page = this.activatedRoute.snapshot.params['pageNumber'];
+    this.getPosts(page);
+  }
+
+  getPosts(page) { 
+    this.postService.getPosts(page).subscribe(data => {
       this.posts = data.posts;
+      if (page < 1 || page > this.pager.totalPages) {
+            return;
+        }
+        this.pager = this.paginationService.getPager(this.postsTotalCount, page);
     }, err => {
       console.log(err);
       return false;
     });
   }
-
-  onPostSubmit() {    
-    const post = {
-      title: this.title,
-      tags: this.tags.trim().split(','),
-      content: this.content,
-      author: this.author
-    }
-    console.log(post);
-    /*
-    //Required fields
-    if(!this.validateService.validateRegister(user)) {
-      this.flashMessagesService.show('Please fill in all fields', {cssClass: 'alert-danger', timeout: 3000});
-      return false;
-    }
-
-    //Validate email
-    if(!this.validateService.validateEmail(user.email)){
-      this.flashMessagesService.show('Please use validate email', {cssClass: 'alert-danger', timeout: 3000});
-      return false
-    }
-
-    //Verify password
-    if(!this.validateService.confirmPassword(user.password, user.passwordConfirm)){
-      this.flashMessagesService.show('Passwords don\'t match', {cssClass: 'alert-danger', timeout: 3000});
-      return false
-    }*/
-
-    this.postService.addPost(post).subscribe(data => {
-      if(data.success) {
-        this.flashMessagesService.show('You added a new post', {cssClass: 'alert-success', timeout: 3000});  
-        //this.router.navigate(['/login']);
-      } else {
-        this.flashMessagesService.show('Something went wrong', {cssClass: 'alert-success', timeout: 3000});  
-        this.router.navigate(['/post']);
-      }
-    });
-  }
-
 }
