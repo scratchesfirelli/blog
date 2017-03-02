@@ -1,16 +1,19 @@
+
 <div class="container" *ngIf='post'>
-    <div class="page-header">
-        <div class="row">
+    <a [routerLink]="['/post/page', '1']" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>
+
+    <input type="submit" [routerLink]="['/post/edit', post._id]" class="btn btn-primary pull-right" value="Edit" *ngIf="user && post.author == user.username">
+            <h1><strong>{{post.title}}</strong> <small>{{post.tags}}</small></h1>
+    <!--<div class="row">
             <div class="col-md-10">
                 <h1> {{post.title}} <small>{{post.tags}}</small></h1>
             </div> 
             <div class="col-md-2">
                 <input type="submit" [routerLink]="['/post/edit', post._id]" class="btn btn-primary pull-right" value="Edit" *ngIf="post.author == user.username">
             </div>              
-        </div>                
-    </div>
+    </div> -->
     <div>
-        {{post.content}}
+        <h2>{{post.content}}</h2>
     </div>
     <hr>
 

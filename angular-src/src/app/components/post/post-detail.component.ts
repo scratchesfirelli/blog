@@ -23,7 +23,9 @@ export class PostDetailComponent implements OnInit {
       date: Date;
     }
   };
+
   comment: String;
+
   user: {
     name: String,
     email: String,
@@ -39,18 +41,12 @@ export class PostDetailComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.authService.getProfile().subscribe(data => {
-      this.user = data.user;
-      console.log(this.user);
-    }, 
-    err => {
-      console.log(err);
-      return false;
-    });
+    if(this.authService.user) {
+      this.user = this.authService.user;
+    }
     const postId = this.activatedRoute.snapshot.params['postId'];
     this.postService.getPostsById(postId).subscribe(data => {
-      this.post = data.post;  
-      console.log(this.post);    
+      this.post = data.post;
     },
     err => {
       console.log(err);
@@ -59,13 +55,16 @@ export class PostDetailComponent implements OnInit {
   }
 
   onCommentAddSubmit() {
+    if(!this.user){
+      this.router.navigateByUrl('/login');
+      return false;
+    }
+    console.log('still in detail');
     const comment = {
       username: this.user.username,
       text: this.comment,
       postId: this.post._id
     }
-    console.log(this.post);
-    console.log(comment);
     this.postService.addComment(comment, this.authService.authToken).subscribe(data => {
       if(data.success) {
         this.flashMessagesService.show('You added a new comment', {cssClass: 'alert-success', timeout: 3000});

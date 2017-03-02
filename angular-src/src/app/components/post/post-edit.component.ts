@@ -43,7 +43,7 @@ export class PostEditComponent implements OnInit {
       tags.forEach(element => {
           trimmedTags.push(element.trim());
       });
-      return trimmedTags
+      return trimmedTags;
   }
 
   onPostSaveSubmit() {    
@@ -54,7 +54,7 @@ export class PostEditComponent implements OnInit {
       tags: this.trimTags(this.tags.split(',')),
       content: this.content
     }
-    console.log(post);
+
 
     this.postService.editPost(post, this.authService.authToken).subscribe(data => {
       if(data.success) {

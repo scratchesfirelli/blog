@@ -15,7 +15,7 @@ export class PostComponent implements OnInit {
   intro: String;
   tags: String;
   content: String;
-  author: String;
+
 
   posts: any;
   pager: any = {};
@@ -30,14 +30,6 @@ export class PostComponent implements OnInit {
     private paginationService: PaginationService) { }
 
   ngOnInit() {
-    this.authService.getProfile().subscribe(data => {
-      this.author = data.user.username;
-    }, 
-    err => {
-      console.log(err);
-      return false;
-    });
-
     this.postService.getPostsTotalCount().subscribe(data => {
       this.postsTotalCount = data.postsTotalCount;
     }, err => {

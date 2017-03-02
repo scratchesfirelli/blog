@@ -1,14 +1,22 @@
 <h1 class="text-center">Posts</h1>
 <div class="container" *ngIf = "posts">    
-    <div *ngFor = "let post of posts">
+    <div class="jumbotron" *ngFor = "let post of posts">
         <div>
-            <h1><a [routerLink]="['/post', post._id]">{{post.title}}</a> <small>{{post.tags}}</small></h1>
+            <h2>
+                <a [routerLink]="['/post', post._id]">{{post.title}}</a>
+                <small style="margin-left: 3px" *ngFor = "let tag of post.tags">
+                    <span class="label label-default" >
+                       {{tag}}
+                    </span>
+                </small>
+            </h2>
             <h4>by<a [routerLink] = "['/user', post.author]"> {{post.author}}</a></h4>
         </div>
         
         <div *ngIf="post.intro">
             <h3>{{post.intro}}</h3>
         </div>
+        <hr>
         <div class="row">
             <div class="col-md-10">
                 {{post.createDate| date: 'medium'}}
@@ -16,27 +24,28 @@
             <div class="col-md-2 text-right" >
                 {{post.rating }}
             </div>
-        </div>
-        <hr>
+        </div>        
     </div>
     
 
      <!-- pager -->
-    <ul *ngIf="pager.pages && pager.pages.length && posts.length" class="pagination">
-        <li [ngClass]="{disabled:pager.currentPage === 1}">
-            <a (click)="getPosts(1)">First</a>
-        </li>
-        <li [ngClass]="{disabled:pager.currentPage === 1}">
-            <a (click)="getPosts(pager.currentPage - 1)">Previous</a>
-        </li>
-        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-            <a (click)="getPosts(page)">{{page}}</a>
-        </li>
-        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-            <a (click)="getPosts(pager.currentPage + 1)">Next</a>
-        </li>
-        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-            <a (click)="getPosts(pager.totalPages)">Last</a>
-        </li>
-    </ul>
+     <div class="text-center">
+        <ul *ngIf="pager.pages && pager.pages.length && posts.length" class="pagination">
+            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                <a (click)="getPosts(1)" >First</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === 1}">
+                <a (click)="getPosts(pager.currentPage - 1)">Previous</a>
+            </li>
+            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                <a (click)="getPosts(page)" >{{page}}</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a (click)="getPosts(pager.currentPage + 1)">Next</a>
+            </li>
+            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                <a (click)="getPosts(pager.totalPages)">Last</a>
+            </li>
+        </ul>
+     </div>
 </div>
