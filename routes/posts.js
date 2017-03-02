@@ -9,6 +9,7 @@ const config = require('../config/database');
 router.post('/add', passport.authenticate('jwt', {session: false}), (req, res, next) => {
     let newPost = new Post({
         title: req.body.title,
+        intro: req.body.intro,
         tags: req.body.tags,
         content: req.body.content,
         author: req.body.author,
@@ -36,6 +37,25 @@ router.post('/addComment', passport.authenticate('jwt', {session: false}), (req,
             res.json({success: false, message: 'Failed to add comment'});
         } else {
             res.json({success: true, message: 'Comment added'})
+        }
+
+    });
+});
+
+router.post('/editPost', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    var post = {
+        postId: req.body.postId,
+        title: req.body.title,
+        intro: req.body.intro,
+        tags: req.body.tags,
+        content: req.body.content,
+    }
+    //console.log(comment);
+    Post.editPost(post, (err, post) => {
+        if(err) {
+            res.json({success: false, message: 'Failed to edit post'});
+        } else {
+            res.json({success: true, message: 'Post edited'})
         }
 
     });

@@ -10,6 +10,7 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 })
 export class AddPostComponent implements OnInit {
   title: String;
+  intro: String;
   tags: String;
   content: String;
   author: String;
@@ -42,6 +43,7 @@ export class AddPostComponent implements OnInit {
   onAddPostSubmit() {    
     const post = {
       title: this.title,
+      intro: this.intro,
       tags: this.trimTags(this.tags.split(',')),
       content: this.content,
       author: this.author

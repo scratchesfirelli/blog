@@ -12,6 +12,7 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 })
 export class PostComponent implements OnInit {
   title: String;
+  intro: String;
   tags: String;
   content: String;
   author: String;
@@ -46,6 +47,7 @@ export class PostComponent implements OnInit {
     
     const page = this.activatedRoute.snapshot.params['pageNumber'];
     this.getPosts(page);
+          
   }
 
   getPosts(page) { 
@@ -55,6 +57,7 @@ export class PostComponent implements OnInit {
             return;
         }
         this.pager = this.paginationService.getPager(this.postsTotalCount, page);
+        
     }, err => {
       console.log(err);
       return false;

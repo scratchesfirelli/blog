@@ -19,6 +19,7 @@ import {AuthGuard} from './guards/auth.guard';
 import { PostComponent } from './components/post/post.component';
 import { AddPostComponent } from './components/post/add-post.component';
 import { PostDetailComponent } from './components/post/post-detail.component';
+import { PostEditComponent } from './components/post/post-edit.component';
 import { PostService} from './services/post.service';
 import { UserComponent } from './components/user/user.component';
 import { UserDetailComponent } from './components/user/user-detail.component';
@@ -36,6 +37,7 @@ const appRoutes: Routes = [
   {path:'post', children: [
     {path: '', redirectTo: 'page/1', pathMatch: 'full'},
     {path: 'page/:pageNumber', component: PostComponent},
+    {path: 'edit/:postId', component: PostEditComponent},
     {path: 'add', component: AddPostComponent, canActivate: [AuthGuard]},
     {path: ':postId', component: PostDetailComponent},
   ]},
@@ -59,7 +61,8 @@ const appRoutes: Routes = [
     AddPostComponent,
     PostDetailComponent,
     UserComponent,
-    UserDetailComponent
+    UserDetailComponent,
+    PostEditComponent
   ],
   imports: [
     BrowserModule,

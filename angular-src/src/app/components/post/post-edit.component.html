@@ -1,5 +1,5 @@
 <h2 class="page-header">New Post</h2>
-<form (submit)="onAddPostSubmit()">
+<form (submit)="onPostSaveSubmit()">
     <div class="form-group">
       <label>Title</label>
       <input type="text" [(ngModel)]="title" name = "title" class="form-control" placeholder="Perfect title">
@@ -17,5 +17,5 @@
         <textarea class="form-control" rows="5" [(ngModel)]="content" name = "content" placeholder="Content goes here"></textarea>
     </div>
     <a [routerLink]="['/post']" class="btn btn-default">Cancel</a>
-    <input type="submit" class="btn btn-primary" value="Add Post">
+    <input type="submit" class="btn btn-primary" value="Save">
 </form>

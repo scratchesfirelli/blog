@@ -9,6 +9,10 @@ const PostSchema = mongoose.Schema({
         required: true,
         dropDups: true
     },
+    intro: {
+        type: String,
+        required: true
+    },
     tags: [String],
     content: {
         type: String,
@@ -69,6 +73,10 @@ module.exports.getPosts = function(page, pageSize, callback) {
 
 module.exports.getPostsTotalCount = function(callback) {
     Post.count(callback);
+}
+
+module.exports.editPost = function(post, callback) {
+    Post.update({_id: post.postId}, {$set: {title: post.title, intro: post.intro, tags: post.tags}}, callback);
 }
 
 

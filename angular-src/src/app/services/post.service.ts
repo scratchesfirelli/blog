@@ -43,4 +43,12 @@ export class PostService {
       .map(res => res.json());
   }
 
+  editPost(post, token) {
+    let headers = new Headers();
+    headers.append('Authorization', token);
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/posts/editPost', post,  {headers: headers})
+      .map(res => res.json());
+  }
+
 }

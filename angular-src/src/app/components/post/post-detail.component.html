@@ -5,7 +5,7 @@
                 <h1> {{post.title}} <small>{{post.tags}}</small></h1>
             </div> 
             <div class="col-md-2">
-                <input type="submit" class="btn btn-primary pull-right" value="Edit" *ngIf="post.author == user.username">
+                <input type="submit" [routerLink]="['/post/edit', post._id]" class="btn btn-primary pull-right" value="Edit" *ngIf="post.author == user.username">
             </div>              
         </div>                
     </div>
