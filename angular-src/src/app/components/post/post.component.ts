@@ -10,6 +10,7 @@ import {FlashMessagesService} from 'angular2-flash-messages';
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
+
 export class PostComponent implements OnInit {
   title: String;
   intro: String;

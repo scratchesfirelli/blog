@@ -28,12 +28,19 @@
     </div>
     <div *ngIf='post.comments.length > 0'>
         <h2>Comments</h2>
-        <div class="well" *ngFor='let userComment of post.comments'>
-            <h3>{{userComment.username}}</h3>
-            <h5>{{userComment.text}}</h5>
-            <div class="row">
-                <h5 class="col-md-10">{{userComment.date | date: 'medium'}}</h5>
-                <h5 class="col-md-2"></h5>
+        <div class="panel panel-default" *ngFor='let userComment of post.comments' ng-mouseover="">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-10">
+                        {{userComment.username}}
+                    </div>
+                    <div class="col-md-2 text-right">
+                        {{userComment.date | date: 'medium'}}
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                {{userComment.text}}
             </div>
         </div>
     </div>
