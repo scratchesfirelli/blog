@@ -65,9 +65,12 @@ module.exports.addComment = function(comment, callback) {
 }
 
 module.exports.getPosts = function(page, pageSize, callback) {
-    console.log(page);
-    console.log(pageSize);
     const query = Post.find().limit(pageSize).skip((page-1)*pageSize).sort({createDate: 'desc'});
+    query.exec(callback);
+}
+
+module.exports.getUsersPosts = function(username, callback) {
+    const query = Post.find({author: username}).sort({createDate: 'desc'});
     query.exec(callback);
 }
 

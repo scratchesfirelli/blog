@@ -22,8 +22,8 @@ export class AddPostComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.authService.getProfile().subscribe(data => {      
-      this.author = data.user.username;
+    this.authService.getProfile().subscribe(user => {      
+      this.author = user.username;
       //console.log(this.author);
     }, 
     err => {
@@ -53,7 +53,7 @@ export class AddPostComponent implements OnInit {
     this.postService.addPost(post, this.authService.authToken).subscribe(data => {
       if(data.success) {
         this.flashMessagesService.show('You added a new post', {cssClass: 'alert-success', timeout: 3000});  
-        this.router.navigate(['/post/list']);
+        this.router.navigate(['/post/page/1']);
       } else {
         this.flashMessagesService.show('Something went wrong', {cssClass: 'alert-success', timeout: 3000});  
         this.router.navigate(['/post/add']);

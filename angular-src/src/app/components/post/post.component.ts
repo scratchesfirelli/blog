@@ -1,3 +1,4 @@
+import { Post } from './../../models/post';
 import { Component, OnInit } from '@angular/core';
 import {PostService} from '../../services/post.service';
 import {PaginationService} from '../../services/pagination.service';
@@ -18,7 +19,7 @@ export class PostComponent implements OnInit {
   content: String;
 
 
-  posts: any;
+  posts: Post[];
   pager: any = {};
   postsTotalCount: number;
 
@@ -45,7 +46,7 @@ export class PostComponent implements OnInit {
 
   getPosts(page) { 
     this.postService.getPosts(page).subscribe(data => {
-      this.posts = data.posts;
+      this.posts = data;
       if (page < 1 || page > this.pager.totalPages) {
             return;
         }

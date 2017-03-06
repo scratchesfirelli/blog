@@ -25,17 +25,29 @@ export class PostService {
     headers.append('page', page.toString());
     headers.append('pageSize', pageSize.toString());
     return this.http.get( this.postsUrl + 'getPosts', {headers: headers})
-      .map(res => res.json());
+      .map(res => res.json().posts);
   }
 
   /**
    * Get specific post using id
   */
-  getPostsById(postId): Observable<Post> {
+  getPostById(postId): Observable<Post> {
     let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
     headers.append('postId', postId);
     return this.http.get(this.postsUrl + 'getPostById', {headers: headers})
-      .map(res => res.json());
+      .map(res => res.json().post);
+  }
+
+  /**
+   * Get specific post using id
+  */
+  getUsersPosts(username): Observable<Post[]> {
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('username', username);
+    return this.http.get(this.postsUrl + 'getUsersPosts', {headers: headers})
+      .map(res => res.json().posts);
   }
 
   getPostsTotalCount() {

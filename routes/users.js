@@ -24,6 +24,17 @@ router.post('/register', (req, res, next) => {
     });
 });
 
+router.get('/getUserByUsername', (req, res, next) => {
+    let username = req.get('username');
+    User.getUserByUsername(username, (err, user) => {
+        if(err) {
+            res.json({success: false, message: 'Cant find user'});
+        } else {
+            res.json({success: true, message: 'User found', user: user});
+        }
+    })
+});
+
 
 
 //Authenticate

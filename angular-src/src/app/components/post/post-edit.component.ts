@@ -26,12 +26,12 @@ export class PostEditComponent implements OnInit {
   ngOnInit() {
     this.authService.loadToken();
     const postId = this.activatedRoute.snapshot.params['postId'];
-    this.postService.getPostsById(postId).subscribe(data => {
-        this.postId = data.post._id;
-        this.title =data.post.title;
-        this.intro = data.post.intro;
-        this.tags = data.post.tags.join();
-        this.content = data.post.content;
+    this.postService.getPostById(postId).subscribe(data => {
+        this.postId = data._id;
+        this.title =data.title;
+        this.intro = data.intro;
+        this.tags = data.tags.join();
+        this.content = data.content;
     }, err => {
         console.log(err);
       return false;

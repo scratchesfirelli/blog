@@ -1,3 +1,5 @@
+import { User } from './../../models/user';
+import { Post } from './../../models/post';
 import { Component, OnInit } from '@angular/core';
 import {PostService} from '../../services/post.service';
 import {AuthService} from '../../services/auth.service';
@@ -10,27 +12,10 @@ import {FlashMessagesService} from 'angular2-flash-messages';
 })
 export class PostDetailComponent implements OnInit {
 
-  post: {
-    _id: String,
-    title: String,
-    content: String,
-    author: String,
-    tags: String,
-    rating: Number,
-    comments: {
-      username: String,
-      text: String,
-      date: Date;
-    }
-  };
-
+  post: Post;
   comment: String;
 
-  user: {
-    name: String,
-    email: String,
-    username: String
-  };
+  user: User;
 
   constructor(
     private postService: PostService,
@@ -41,12 +26,16 @@ export class PostDetailComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    if(this.authService.user) {
-      this.user = this.authService.user;
-    }
+    this.authService.getProfile().subscribe(user => {
+      this.user = user;
+    }, err => {
+      console.log(err);
+      return false;
+    })
     const postId = this.activatedRoute.snapshot.params['postId'];
-    this.postService.getPostsById(postId).subscribe(data => {
-      this.post = data.post;
+    this.postService.getPostById(postId).subscribe(data => {
+      this.post = data;
+      console.log(this.authService.user);
     },
     err => {
       console.log(err);
@@ -57,6 +46,10 @@ export class PostDetailComponent implements OnInit {
   onCommentAddSubmit() {
     if(!this.user){
       this.router.navigateByUrl('/login');
+      return false;
+    }
+    if(!this.comment){
+      this.flashMessagesService.show('Insert comment text', {cssClass: 'alert-danger', timeout: 3000});
       return false;
     }
     console.log('still in detail');
@@ -71,7 +64,7 @@ export class PostDetailComponent implements OnInit {
         location.reload();
         //this.router.navigate(['/post/list']);
       } else {
-        this.flashMessagesService.show('Something went wrong', {cssClass: 'alert-success', timeout: 3000});  
+        this.flashMessagesService.show('Something went wrong', {cssClass: 'alert-danger', timeout: 3000});  
         //this.router.navigate(['/post/add']);
       }
     });

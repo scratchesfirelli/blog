@@ -1,7 +1,7 @@
 import { Comment } from './comment';
 
 export class Post {
-    id: String;
+    _id: String;
     title: String;
     intro: String;
     tags: [String];

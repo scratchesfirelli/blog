@@ -1,0 +1,21 @@
+<div class="container" *ngIf='user'>
+    <div class="row">
+        <div class="col-md-4 thumbnail"><img ></div>
+        <div class="col-md-8">
+            <h2 class="page-header">{{user.username}}</h2>
+            <h5>{{user.name}}</h5>
+            <h5>{{user.email}}</h5>
+        </div>
+    </div>      
+</div>
+
+<br>
+
+<div class="container" *ngIf='posts'>
+    <ol>
+        <li *ngFor='let post of posts' class="list-group-item justify-content-between">
+            <a [routerLink]="['/post', post._id]">{{post.title}}</a><small *ngIf= 'post.intro'>, {{post.intro}}</small>
+            <span class="text-muted pull-right">{{post.createDate | date: 'medium'}}</span>
+        </li>
+    </ol>   
+</div>

@@ -76,6 +76,21 @@ router.get('/getPosts', (req, res, next) => {
     });
 });
 
+router.get('/getUsersPosts', (req, res, next) => {
+    console.log('in getUsersPosts');
+    let username = req.get('username');
+
+    Post.getUsersPosts(username, (err, posts) => {
+        if(err) {
+            console.log(err);
+            res.json({success: false, message: 'Failed to get user\'s posts'});
+        } else {
+            console.log(posts);
+            res.json({success: true, message: 'Posts', posts: posts});
+        }
+    });
+});
+
 router.get('/getPostById', (req, res, next) => {
     let id = req.get('postId');
     Post.getPostById(id, (err, post) => {
